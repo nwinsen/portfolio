@@ -18,6 +18,17 @@ const system = createSystem(defaultConfig, {
         normal: { value: 400 },
         bold: { value: 700 },
       },
+      colors: {
+        dark: {
+          background: { value: "#2D3748" }, // Lighter gray for dark mode background
+          text: { value: "#ffffff" },
+        },
+      },
+    },
+  },
+  globalCss: {
+    body: {
+      bg: { _light: "#F9FDF9", _dark: "#202020" },
     },
   },
 });
