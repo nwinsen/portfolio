@@ -2,7 +2,6 @@ import { Box, Text, Link, VStack, List } from "@chakra-ui/react";
 const Contact = () => {
   return (
     <Box
-      as="nav"
       display="flex"
       margin="auto"
       paddingLeft={{ base: "16px", md: "80px" }}

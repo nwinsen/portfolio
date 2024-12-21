@@ -1,20 +1,45 @@
-import React from "react";
-import { Image } from "@chakra-ui/react";
+import { Image, Text, Box, HStack, Link } from "@chakra-ui/react";
 
 interface WorkItemProps {
+  company: string;
   title: string;
   description: string;
   date: string;
   img: string;
 }
 
-const WorkItem = ({ title, description, date }: WorkItemProps) => {
+const WorkItem = ({
+  company,
+  title,
+  description,
+  date,
+  img,
+}: WorkItemProps) => {
   return (
-    <div className="work-item">
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <span>{date}</span>
-    </div>
+    <Box>
+      <HStack
+        display={"flex"}
+        alignItems={"start"}
+        position={"relative"}
+        gap={"0px"}
+      >
+        <Box position={"relative"}>
+          <Link href="https://drund.com">
+            <Image src={img} alt={company} width={"55px"} height={"55px"} />
+          </Link>
+        </Box>
+      </HStack>
+      <Box id="box" width={"full"}>
+        <HStack alignItems={"center"} justifyContent={"space-between"}>
+          <HStack>
+            <Link>Company</Link>
+          </HStack>
+          <Text>
+            {title}, {date}
+          </Text>
+        </HStack>
+      </Box>
+    </Box>
   );
 };
 

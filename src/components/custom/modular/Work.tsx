@@ -1,9 +1,18 @@
+import WorkItem from "./WorkItem";
 const Work = () => {
   return (
-    <div>
-      <h1>Work Component</h1>
-      <p>This is a temporary component for displaying work-related content.</p>
-    </div>
+    <>
+      <WorkItem
+        company="Drund"
+        title="Quality Assurance Intern"
+        description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis,
+                  enim ab incidunt facilis aliquid, repellat corporis consectetur dicta
+                  illo odit corrupti commodi laudantium temporibus hic culpa quisquam
+                  ipsa autem fuga."
+        date="May-Dec"
+        img="/drund.png"
+      />
+    </>
   );
 };
 

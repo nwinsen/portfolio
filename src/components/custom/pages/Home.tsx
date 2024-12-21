@@ -17,7 +17,6 @@ const Home = () => {
 
   return (
     <Box
-      as="nav"
       display="flex"
       margin="auto"
       paddingLeft={{ base: "16px", md: "80px" }}
