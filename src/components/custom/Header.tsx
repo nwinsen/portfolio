@@ -1,5 +1,5 @@
 import { Box, HStack, Text, VStack, Link } from "@chakra-ui/react";
-import NavLink from "./modular/NavLink";
+import NavLink from "./smaller/NavLink";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 const Header = () => {
   return (

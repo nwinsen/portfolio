@@ -64,9 +64,11 @@ const Home = () => {
               borderRadius={"50%"}
               padding={"6px"}
             >
-              <Text color={{ _light: "#525252", _dark: "#9BA0A8" }}>
-                <FaDiscord />
-              </Text>
+              <Link href="https://discordapp.com/users/211913127816593419">
+                <Text color={{ _light: "#525252", _dark: "#9BA0A8" }}>
+                  <FaDiscord />
+                </Text>
+              </Link>
             </Box>
           </HStack>
         </VStack>
@@ -101,27 +103,16 @@ const Home = () => {
             borderRadius={"50%"}
             padding={"6px"}
           >
-            <Text color={{ _light: "#525252", _dark: "#9BA0A8" }}>
-              <FaDiscord />
-            </Text>
+            <Link href="https://discordapp.com/users/211913127816593419">
+              <Text color={{ _light: "#525252", _dark: "#9BA0A8" }}>
+                <FaDiscord />
+              </Text>
+            </Link>
           </Box>
         </HStack>
         <HStack width="100%" display="flex" justifyContent="space-between">
           <VStack alignItems={"flex-start"} gap={"1rem"} maxWidth={"600px"}>
-            <Text fontSize={"20px"}>
-              {dp1[0]}
-              <Link
-                color={{ _light: "#157533", _dark: "#80b68a" }}
-                _hover={{
-                  color: { _light: "#0B3D0B", _dark: "#A3D9A5" },
-                }}
-                className="bio-link"
-                href="https://drund.com"
-              >
-                <b>Drund</b>
-              </Link>
-              {dp1[1]}
-            </Text>
+            <Text fontSize={"20px"}>{dp1}</Text>
             <Text fontSize={"20px"}>
               {dp2[0]}
               <Link

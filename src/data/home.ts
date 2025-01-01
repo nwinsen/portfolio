@@ -1,4 +1,4 @@
-export const p1 = `I'm a software engineer interested in everything full stack. I'm currently based in Youngstown, working at Drund.`;
+export const p1 = `I'm a software engineer interested in everything full stack. I'm currently based in Youngstown.`;
 export const p2 =
   "Recently, I've just finished up my Computer Science degree at Youngstown State University. During school, I worked as a peer tutor and a TA and Researcher for The Data Mine.";
 export const p3 =
