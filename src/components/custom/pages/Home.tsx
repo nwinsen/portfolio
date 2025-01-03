@@ -19,8 +19,8 @@ const Home = () => {
     <Box
       display="flex"
       margin="auto"
-      paddingLeft={{ base: "16px", md: "80px" }}
-      paddingRight={{ base: "16px", md: "80px" }}
+      paddingLeft={{ base: "16px", md: "120px" }}
+      paddingRight={{ base: "16px", md: "120px" }}
       flex={"1 1 0%"}
     >
       <VStack

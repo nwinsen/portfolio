@@ -20,7 +20,7 @@ const system = createSystem(defaultConfig, {
       },
       colors: {
         dark: {
-          background: { value: "#2D3748" }, // Lighter gray for dark mode background
+          background: { value: "#232935" }, // Lighter gray for dark mode background
           text: { value: "#ffffff" },
         },
       },
@@ -28,7 +28,7 @@ const system = createSystem(defaultConfig, {
   },
   globalCss: {
     body: {
-      bg: { _light: "#F9FDF9", _dark: "#202020" },
+      bg: { _light: "#F9FDF9", _dark: "#242424" },
     },
   },
 });

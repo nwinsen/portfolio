@@ -6,7 +6,7 @@ export interface ProjectImage {
 export const MyProjects = [
   {
     title: "League Of Lookup",
-    img: { src: "/league.png", pos: 30 },
+    img: { src: "/league.png", pos: 20 },
     subtitle: "Grab your League Of Legends stats!",
     description:
       "A full-stack application that allows users to search for their League Of Legends stats, similar to op.gg.",

@@ -21,7 +21,7 @@ const WorkItem = ({
         <VStack width={"full"} alignItems={"flex-start"}>
           <Image
             position="absolute"
-            left={"-0.5"}
+            left={8}
             marginLeft={4}
             marginTop={2}
             src={img}
@@ -46,7 +46,9 @@ const WorkItem = ({
               {title}, {date}
             </Text>
           </HStack>
-          <Text>{description}</Text>
+          <Text color={{ _light: "gray.500", _dark: "gray.400" }}>
+            {description}
+          </Text>
         </VStack>
       </Box>
       <Box display={{ base: "flex", md: "none" }} width={"full"}>
@@ -71,7 +73,9 @@ const WorkItem = ({
               {title}, {date}
             </Text>
           </VStack>
-          <Text>{description}</Text>
+          <Text color={{ _light: "gray.500", _dark: "gray.400" }}>
+            {description}
+          </Text>
         </VStack>
       </Box>
     </>

@@ -8,8 +8,8 @@ const Header = () => {
       display="flex"
       alignItems="center"
       margin="auto"
-      paddingLeft={{ base: "16px", md: "80px" }}
-      paddingRight={{ base: "16px", md: "80px" }}
+      paddingLeft={{ base: "16px", md: "120px" }}
+      paddingRight={{ base: "16px", md: "120px" }}
     >
       <HStack
         display={{ base: "none", md: "flex" }}
