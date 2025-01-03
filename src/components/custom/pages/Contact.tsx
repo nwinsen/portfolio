@@ -20,7 +20,7 @@ const Contact = () => {
         gap={"16px"}
       >
         <Text fontSize={"20px"}>
-          The best way to reach out to me is via email at{" "}
+          The best way to reach out is via email at{" "}
           <Link
             color={{ _light: "#157533", _dark: "#80b68a" }}
             _hover={{
@@ -37,13 +37,26 @@ const Contact = () => {
           <List.Root>
             <List.Item marginRight={"100px"}>
               <Link
-                color={{ _light: "#333333", _dark: "#E5E7EB" }}
+                color={{ _light: "#157533", _dark: "#80b68a" }}
                 _hover={{
-                  color: { _light: "#1A202C", _dark: "#1A202C" },
+                  color: { _light: "#0B3D0B", _dark: "#A3D9A5" },
                 }}
-                href="/"
+                className="bio-link"
+                href="https://linkedin.com/in/nwinsen"
               >
-                LinkedIn
+                <b>LinkedIn</b>
+              </Link>
+            </List.Item>
+            <List.Item marginRight={"100px"}>
+              <Link
+                color={{ _light: "#157533", _dark: "#80b68a" }}
+                _hover={{
+                  color: { _light: "#0B3D0B", _dark: "#A3D9A5" },
+                }}
+                className="bio-link"
+                href="https://discordapp.com/users/211913127816593419"
+              >
+                <b>Discord</b>
               </Link>
             </List.Item>
           </List.Root>
