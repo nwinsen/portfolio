@@ -13,6 +13,7 @@ jobs:
 
       - name: Install & Build
         run: |
+          cd ./client
           npm install
           npm run build
       - name: Push to S3
