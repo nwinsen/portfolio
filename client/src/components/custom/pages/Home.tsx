@@ -81,7 +81,7 @@ const Home = () => {
           gap={"34px"}
           alignItems={"flex-start"}
         >
-          <Heading fontSize={"51px"} paddingBottom={"55px"}>
+          <Heading fontSize={"36px"} paddingBottom={"55px"}>
             hey, i'm nick winsen.
           </Heading>
           <Box
