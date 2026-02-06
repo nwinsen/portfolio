@@ -11,11 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install & Build
-        run: |
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - run: |
           cd ./client
-          npm install
-          npm run build
+          bun install
+          bun run build
+
       - name: Push to S3
         run: |
           aws s3 sync ./dist s3://${{ secrets.S3_BUCKET_NAME }} --delete
