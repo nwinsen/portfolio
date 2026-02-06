@@ -1,0 +1,24 @@
+# --- OPENTOFU / TERRAFORM ---
+# Ignore the local plugins and modules directory.
+# This folder is huge and can be recreated anytime by running 'tofu init'.
+.terraform/
+
+# Ignore local state files.
+# Since we are moving to an S3 backend, these local files are just 
+# temporary leftovers. Committing them is a huge security risk!
+*.tfstate
+*.tfstate.*
+
+# Ignore the lock info file created during an active 'apply'
+.terraform.tfstate.lock.info
+
+# --- SECRETS & VARS ---
+# Ignore any file ending in .tfvars. 
+# These often contain passwords or API keys that should NEVER be in Git.
+*.tfvars
+*.tfvars.json
+
+# --- LOGS & PLANS ---
+# Ignore crash logs and execution plans (which can contain secrets in plain text)
+crash.log
+*.tfplan
