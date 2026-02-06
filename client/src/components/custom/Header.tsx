@@ -47,6 +47,7 @@ const Header = () => {
             <NavLink text={"/work"} href={"/exp"} />
             <NavLink text={"/projects"} href={"/exp#projects"} />
             <NavLink text={"/contact"} href={"/contact"} />
+            <NavLink text={"/blog"} href={"/blog"} />
           </HStack>
         </HStack>
         <HStack display={{ base: "none", md: "flex" }}>

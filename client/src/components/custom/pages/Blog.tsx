@@ -1,5 +1,5 @@
-import { Box, Text, Link, VStack, List } from "@chakra-ui/react";
-const Contact = () => {
+import { Box, Text, Link, VStack, List, Heading } from "@chakra-ui/react";
+const Blog = () => {
   return (
     <Box
       display="flex"
@@ -14,24 +14,12 @@ const Contact = () => {
         alignItems={"flex-start"}
         marginTop={"80px"}
         marginBottom={"80px"}
-        lineHeight={"24px"}
+        lineHeight={"34px"}
         minHeight={"100vh"}
         maxWidth={"600px"}
         gap={"16px"}
       >
-        <Text fontSize={"20px"}>
-          The best way to reach out is via email at{" "}
-          <Link
-            color={{ _light: "#157533", _dark: "#80b68a" }}
-            _hover={{
-              color: { _light: "#0B3D0B", _dark: "#A3D9A5" },
-            }}
-            href="mailto:nicholasgwinsen@gmail.com"
-          >
-            <b>nicholasgwinsen@gmail.com</b>
-          </Link>
-          .
-        </Text>
+        <Heading>Blog</Heading>
         <Text fontSize={"20px"}>
           You can also find me on{" "}
           <List.Root>
@@ -65,5 +53,4 @@ const Contact = () => {
     </Box>
   );
 };
-
-export default Contact;
+export default Blog;

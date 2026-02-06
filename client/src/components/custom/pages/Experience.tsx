@@ -20,7 +20,7 @@ const Experience = () => {
         gap={20}
       >
         <VStack width={"full"} align={"flex-start"} gap={0}>
-          <Heading fontSize={"48px"} lineHeight={{ base: 1.33, md: 1.2 }}>
+          <Heading fontSize={"52px"} lineHeight={{ base: 1.33, md: 1.2 }}>
             Work
           </Heading>
           <Work />
@@ -28,7 +28,7 @@ const Experience = () => {
 
         <VStack width={"full"} align={"flex-start"} gap={0}>
           <Heading
-            fontSize={"48px"}
+            fontSize={"52px"}
             lineHeight={{ base: 1.33, md: 1.2 }}
             id="projects"
           >

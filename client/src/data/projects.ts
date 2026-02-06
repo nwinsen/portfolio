@@ -5,6 +5,22 @@ export interface ProjectImage {
 
 export const MyProjects = [
   {
+    title: "Cookly",
+    img: {
+      src: "https://cdn-icons-png.flaticon.com/512/248/248113.png",
+      pos: 110,
+    },
+    subtitle: "RAG Cooking App",
+    description:
+      "A cooking app that allows you to store your favorite recipes from instagram/tiktok and create new ones on the fly!",
+    links: [
+      {
+        title: "Building...",
+        url: "",
+      },
+    ],
+  },
+  {
     title: "League Of Lookup",
     img: { src: "/league.png", pos: 20 },
     subtitle: "Grab your League Of Legends stats!",

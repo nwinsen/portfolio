@@ -66,6 +66,7 @@ const Footer = () => {
         display={{ base: "block", md: "none" }}
         paddingBottom={"32px"}
         marginTop={"40px"}
+        fontSize={"25px"}
       >
         <VStack paddingBottom={"32px"}>
           <HStack
@@ -103,10 +104,10 @@ const Footer = () => {
           </HStack>
           <Link to="http://github.com/nwinsen/portfolio">
             <HStack>
-              <Text fontSize={"12px"} color={"#7f7f7f"}>
+              <Text fontSize={"14px"} color={"#7f7f7f"}>
                 <FaCodeBranch />
               </Text>
-              <Text fontSize={"12px"} color={"#7f7f7f"}>
+              <Text fontSize={"14px"} color={"#7f7f7f"}>
                 Nicholas Winsen
               </Text>
             </HStack>
