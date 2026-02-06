@@ -5,14 +5,14 @@
     "": {
       "name": "portfolio",
       "dependencies": {
-        "@chakra-ui/react": "^3.2.3",
-        "@emotion/react": "^11.14.0",
+        "@chakra-ui/react": "^3.0.0",
+        "@emotion/react": "^11",
         "@fontsource-variable/roboto-mono": "^5.1.0",
         "@fontsource/roboto": "^5.1.0",
-        "next-themes": "^0.4.4",
+        "next-themes": "^0.4.6",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "react-icons": "^5.4.0",
+        "react-icons": "^5.5.0",
         "react-router": "^7.0.2",
       },
       "devDependencies": {
@@ -600,7 +600,7 @@
 
     "natural-compare": ["natural-compare@1.4.0", "", {}, "sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw=="],
 
-    "next-themes": ["next-themes@0.4.4", "", { "peerDependencies": { "react": "18.3.1", "react-dom": "18.3.1" } }, "sha512-LDQ2qIOJF0VnuVrrMSMLrWGjRMkq+0mpgl6e0juCLqdJ+oo8Q84JRWT6Wh11VDQKkMMe+dVzDKLWs5n87T+PkQ=="],
+    "next-themes": ["next-themes@0.4.6", "", { "peerDependencies": { "react": "^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react-dom": "^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc" } }, "sha512-pZvgD5L0IEvX5/9GWyHMf3m8BKiVQwsCMHfoFosXtXBMnaS0ZnIJ9ST4b4NqLVKDEm8QBxoNNGNaBv2JNF6XNA=="],
 
     "node-releases": ["node-releases@2.0.18", "", {}, "sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g=="],
 
@@ -644,7 +644,7 @@
 
     "react-dom": ["react-dom@18.3.1", "", { "dependencies": { "loose-envify": "1.4.0", "scheduler": "0.23.2" }, "peerDependencies": { "react": "18.3.1" } }, "sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw=="],
 
-    "react-icons": ["react-icons@5.4.0", "", { "peerDependencies": { "react": "18.3.1" } }, "sha512-7eltJxgVt7X64oHh6wSWNwwbKTCtMfK35hcjvJS0yxEAhPM8oUKdS3+kqaW1vicIltw+kR2unHaa12S9pPALoQ=="],
+    "react-icons": ["react-icons@5.5.0", "", { "peerDependencies": { "react": "*" } }, "sha512-MEFcXdkP3dLo8uumGI5xN3lDFNsRtrjbOEKDLD7yv76v4wpnEq2Lt2qeHaQOr34I/wPN3s3+N08WkQ+CW37Xiw=="],
 
     "react-is": ["react-is@16.13.1", "", {}, "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="],
 

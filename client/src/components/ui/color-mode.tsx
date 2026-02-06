@@ -1,51 +1,60 @@
 "use client";
 
-import {
-  ClientOnly,
-  IconButton,
-  IconButtonProps,
-  Skeleton,
-} from "@chakra-ui/react";
-import { ThemeProvider, ThemeProviderProps, useTheme } from "next-themes";
-
+import type { IconButtonProps, SpanProps } from "@chakra-ui/react";
+import { ClientOnly, IconButton, Skeleton, Span } from "@chakra-ui/react";
+import { ThemeProvider, useTheme } from "next-themes";
+import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 
-export type ColorModeProviderProps = ThemeProviderProps;
+export interface ColorModeProviderProps extends ThemeProviderProps {}
 
-export function ColorModeProvider(props: ThemeProviderProps) {
-  return <ThemeProvider attribute="class" {...props} />;
+export function ColorModeProvider(props: ColorModeProviderProps) {
+  return (
+    <ThemeProvider attribute="class" disableTransitionOnChange {...props} />
+  );
 }
 
-export function useColorMode() {
-  const { resolvedTheme, setTheme } = useTheme();
+export type ColorMode = "light" | "dark";
+
+export interface UseColorModeReturn {
+  colorMode: ColorMode;
+  setColorMode: (colorMode: ColorMode) => void;
+  toggleColorMode: () => void;
+}
+
+export function useColorMode(): UseColorModeReturn {
+  const { resolvedTheme, setTheme, forcedTheme } = useTheme();
+  const colorMode = forcedTheme || resolvedTheme;
   const toggleColorMode = () => {
-    setTheme(resolvedTheme === "light" ? "dark" : "light");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
   return {
-    colorMode: resolvedTheme,
+    colorMode: colorMode as ColorMode,
     setColorMode: setTheme,
     toggleColorMode,
   };
 }
 
-export function useColorModeValue<T>(light: T, dark: T): T {
+export function useColorModeValue<T>(light: T, dark: T) {
   const { colorMode } = useColorMode();
-  return colorMode === "light" ? light : dark;
+  return colorMode === "dark" ? dark : light;
 }
 
 export function ColorModeIcon() {
   const { colorMode } = useColorMode();
-  return colorMode === "light" ? <LuSun /> : <LuMoon />;
+  return colorMode === "dark" ? <LuMoon /> : <LuSun />;
 }
+
+interface ColorModeButtonProps extends Omit<IconButtonProps, "aria-label"> {}
 
 export const ColorModeButton = React.forwardRef<
   HTMLButtonElement,
-  IconButtonProps
+  ColorModeButtonProps
 >(function ColorModeButton(props, ref) {
   const { toggleColorMode } = useColorMode();
   return (
-    <ClientOnly fallback={<Skeleton boxSize="8" />}>
+    <ClientOnly fallback={<Skeleton boxSize="9" />}>
       <IconButton
         onClick={toggleColorMode}
         variant="ghost"
@@ -65,3 +74,33 @@ export const ColorModeButton = React.forwardRef<
     </ClientOnly>
   );
 });
+
+export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
+  function LightMode(props, ref) {
+    return (
+      <Span
+        color="fg"
+        display="contents"
+        className="chakra-theme light"
+        colorPalette="light"
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+
+export const DarkMode = React.forwardRef<HTMLSpanElement, SpanProps>(
+  function DarkMode(props, ref) {
+    return (
+      <Span
+        color="fg"
+        display="contents"
+        className="chakra-theme dark"
+        colorPalette="dark"
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
