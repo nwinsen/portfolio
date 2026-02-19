@@ -64,6 +64,5 @@ package-lock.json
 .eslintcache
 *v8.log
 /lib/
-/public/
 /dist/
 /dist
