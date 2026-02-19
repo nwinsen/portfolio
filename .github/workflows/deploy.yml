@@ -27,6 +27,7 @@ jobs:
           cd ./client
           bun install
           bun run build
+          cp -r public/* dist/
 
       - name: Push to S3
         run: |
