@@ -81,7 +81,11 @@ const Home = () => {
           gap={"34px"}
           alignItems={"flex-start"}
         >
-          <Heading fontSize={"36px"} paddingBottom={"55px"}>
+          <Heading
+            fontSize={"51px"}
+            paddingBottom={"55px"}
+            whiteSpace={"nowrap"}
+          >
             hey, i'm nick winsen.
           </Heading>
           <Box
@@ -97,7 +101,7 @@ const Home = () => {
               <FaLocationDot />
             </Text>
             <Text color={{ _light: "#525252", _dark: "#9BA0A8" }}>
-              Youngstown, OH
+              Youngstown
             </Text>
           </Box>
           <Box

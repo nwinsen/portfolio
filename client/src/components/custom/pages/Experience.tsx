@@ -17,22 +17,24 @@ const Experience = () => {
         width={"full"}
         justifyContent={"flex-start"}
         alignItems={"flex-start"}
+        marginTop={"80px"}
+        marginBottom={"80px"}
         gap={20}
       >
-        <VStack width={"full"} align={"flex-start"} gap={0}>
+        <VStack width={"full"} align={"flex-start"} gap={"12px"}>
           <Heading fontSize={"52px"} lineHeight={{ base: 1.33, md: 1.2 }}>
-            Work
+            work.
           </Heading>
           <Work />
         </VStack>
 
-        <VStack width={"full"} align={"flex-start"} gap={0}>
+        <VStack width={"full"} align={"flex-start"} gap={"12px"}>
           <Heading
             fontSize={"52px"}
             lineHeight={{ base: 1.33, md: 1.2 }}
             id="projects"
           >
-            Projects
+            projects.
           </Heading>
           <Projects />
         </VStack>
