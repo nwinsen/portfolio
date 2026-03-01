@@ -5,6 +5,7 @@ import Footer from "./components/custom/Footer";
 import Experience from "./components/custom/pages/Experience";
 import Contact from "./components/custom/pages/Contact";
 import Blog from "./components/custom/pages/Blog";
+import BlogPost from "./components/custom/pages/BlogPost";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/resume" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
       </Routes>
       <Footer />
     </>
