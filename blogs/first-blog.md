@@ -11,7 +11,7 @@ Formerly, I had a one-shot click to host for this site.
 
 As a bit of a side project, and as my first foray into true cloud hosting, I wanted to engineer both somewhere I could write thoughts, and track useful metrics both client and server side.
 
-Thus, I turned to AWS - one of the most notorious cloud services on the market.
+Thus, I turned to AWS - one of the most notorious cloud services on the market. :)
 
 ## New: AWS
 
