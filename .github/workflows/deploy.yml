@@ -55,7 +55,6 @@ jobs:
 
       - name: Register blog posts
         run: |
-          echo ${{ secrets.API_URL}}
           for file in blogs/*.md; do
             slug=$(basename "$file" .md)
             title=$(grep '^title:' "$file" | sed 's/^title: *"//;s/"$//')
