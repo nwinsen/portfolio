@@ -1,4 +1,4 @@
-name: Deploy Frontend
+name: Deploy
 
 on:
   push:
@@ -23,15 +23,40 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Build Lambda
+        run: |
+          cd ./server/app
+          bun install
+          bun run build
+          cd dist
+          zip -j ../lambda.zip index.js
+
+      - name: Deploy Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
+            --zip-file fileb://./server/app/lambda.zip
+
       - run: |
           cd ./client
           bun install
-          bun run build
+          VITE_API_URL=${{ secrets.API_URL }} bun run build
           cp -r public/* dist/
 
       - name: Push to S3
         run: |
           aws s3 sync ./client/dist s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+      - name: Register blog posts
+        run: |
+          for file in blogs/*.md; do
+            slug=$(basename "$file" .md)
+            title=$(grep '^title:' "$file" | sed 's/^title: *"//;s/"$//')
+            curl -s -o /dev/null -w "%{http_code}" \
+              -X POST "${{ secrets.API_URL }}/blog/" \
+              -H "Content-Type: application/json" \
+              -d "{\"title\": \"$title\", \"slug\": \"$slug\"}" || true
+          done
 
       - name: Purge Cache
         run: |
