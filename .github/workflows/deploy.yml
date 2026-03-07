@@ -22,7 +22,10 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache-backend
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
       - name: Build Lambda
         run: |
           cd ./server/app
@@ -36,11 +39,15 @@ jobs:
           aws lambda update-function-code \
             --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
             --zip-file fileb://./server/app/lambda.zip
-
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache-frontend
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
       - run: |
           cd ./client
           bun install
-          VITE_API_URL=${{ secrets.API_URL }} bun run build
+          VITE_API_URL=${{ secrets.API_URL }}
+          bun run build
           cp -r public/* dist/
 
       - name: Push to S3
@@ -49,6 +56,7 @@ jobs:
 
       - name: Register blog posts
         run: |
+          echo ${{ secrets.API_URL}}
           for file in blogs/*.md; do
             slug=$(basename "$file" .md)
             title=$(grep '^title:' "$file" | sed 's/^title: *"//;s/"$//')
