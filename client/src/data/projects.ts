@@ -8,7 +8,7 @@ export const MyProjects = [
     title: "Cookly",
     img: {
       src: "https://cdn-icons-png.flaticon.com/512/248/248113.png",
-      pos: 110,
+      pos: 50,
     },
     subtitle: "RAG Cooking App",
     description:
