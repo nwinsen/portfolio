@@ -33,10 +33,21 @@ resource "aws_route53_record" "cert_validation" {
   zone_id = aws_route53_zone.main.zone_id
 }
 
-# 4. The "Waiter"
 # This tells Tofu to wait for the handshake to finish before moving to the next file
 resource "aws_acm_certificate_validation" "cert" {
   provider                = aws.us_east_1
   certificate_arn          = aws_acm_certificate.cert.arn
   validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
+}
+
+resource "aws_route53_record" "root_a" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = var.site_domain # e.g., winsen.dev
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
 }
