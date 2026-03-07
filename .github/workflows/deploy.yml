@@ -25,7 +25,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache-backend
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('server/app/bun.lock') }}
       - name: Build Lambda
         run: |
           cd ./server/app
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache-frontend
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('client/bun.lock') }}
       - run: |
           cd ./client
           bun install
