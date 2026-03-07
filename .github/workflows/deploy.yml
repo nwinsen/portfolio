@@ -24,7 +24,7 @@ jobs:
           bun-version: latest
       - uses: actions/cache@v4
         with:
-          path: ~/.bun/install/cache-backend
+          path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('server/app/bun.lock') }}
       - name: Build Lambda
         run: |
@@ -41,13 +41,12 @@ jobs:
             --zip-file fileb://./server/app/lambda.zip
       - uses: actions/cache@v4
         with:
-          path: ~/.bun/install/cache-frontend
+          path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('client/bun.lock') }}
       - run: |
           cd ./client
           bun install
-          VITE_API_URL=${{ secrets.API_URL }}
-          bun run build
+          VITE_API_URL=${{ secrets.API_URL }} bun run build
           cp -r public/* dist/
 
       - name: Push to S3
@@ -61,7 +60,7 @@ jobs:
             slug=$(basename "$file" .md)
             title=$(grep '^title:' "$file" | sed 's/^title: *"//;s/"$//')
             curl -v -s -o /dev/null -w "%{http_code}" \
-              -X POST "${{ secrets.API_URL }}/blog/" \
+              -X POST "${{ secrets.API_URL }}/blog" \
               -H "Content-Type: application/json" \
               -d "{\"title\": \"$title\", \"slug\": \"$slug\"}" || true
           done
