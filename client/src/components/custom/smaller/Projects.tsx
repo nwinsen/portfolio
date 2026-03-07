@@ -11,7 +11,9 @@ export interface LinkType {
 const Projects = () => {
   return (
     <VStack width={"full"} gap={4} align={"flex-start"}>
-      <Text>A collection of projects I've worked on:</Text>
+      <Text color={{ _light: "gray.500", _dark: "gray.400" }}>
+        A collection of projects I've worked on:
+      </Text>
       {projects.map((project) => {
         return (
           <Project

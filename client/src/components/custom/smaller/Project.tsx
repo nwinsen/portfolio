@@ -46,7 +46,9 @@ const Project = ({
           <Text color={{ _light: "gray.500", _dark: "gray.400" }}>
             {subtitle}
           </Text>
-          <Text>{description}</Text>
+          <Text color={{ _light: "gray.500", _dark: "gray.400" }}>
+            {description}
+          </Text>
         </VStack>
         <HStack>
           {links.map((link) => (
@@ -79,10 +81,12 @@ const Project = ({
         />
         <VStack gap={0} align={"flex-start"}>
           <Heading>{title}</Heading>
-          <Text color={{ _light: "gray.500", _dark: "gray.400" }}>
+          <Text color={{ _light: "gray.700", _dark: "gray.400" }}>
             {subtitle}
           </Text>
-          <Text>{description}</Text>
+          <Text color={{ _light: "gray.500", _dark: "gray.400" }}>
+            {description}
+          </Text>
           <HStack>
             {links.map((link) => (
               <Link
