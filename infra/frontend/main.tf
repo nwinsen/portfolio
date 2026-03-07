@@ -54,4 +54,62 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   restrictions {
     geo_restriction { restriction_type = "none" }
   }
+
+  custom_error_response {
+    error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 300
+  }
+
+  custom_error_response {
+    error_code            = 404
+    response_code         = 200
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 300
+  }
+
+}
+
+resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
+  bucket = aws_s3_bucket.website_bucket.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = {
+      Sid       = "AllowCloudFrontServicePrincipalReadOnly"
+      Effect    = "Allow"
+      Principal = {
+        Service = "cloudfront.amazonaws.com"
+      }
+      Action   = "s3:GetObject"
+      Resource = "${aws_s3_bucket.website_bucket.arn}/*"
+      Condition = {
+        StringEquals = {
+          "AWS:SourceArn" = aws_cloudfront_distribution.s3_distribution.arn
+        }
+      }
+    }
+  })
+}
+
+resource "aws_s3_object" "assets" {
+  for_each = fileset("${path.module}/dist/assets", "**/*")
+
+  bucket       = aws_s3_bucket.website_bucket.id
+  key          = "assets/${each.value}"
+  source       = "${path.module}/dist/assets/${each.value}"
+  
+  # This dynamic lookup maps the file extension to the correct MIME type
+  content_type = lookup({
+    "png"  = "image/png"
+    "jpg"  = "image/jpeg"
+    "jpeg" = "image/jpeg"
+    "svg"  = "image/svg+xml"
+    "webp" = "image/webp"
+    "css"  = "text/css"
+    "js"   = "application/javascript"
+    "html" = "text/html"
+  }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
+
+  etag = filemd5("${path.module}/dist/assets/${each.value}")
 }
