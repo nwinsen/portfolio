@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { Box, VStack, Heading, Text, Link, HStack } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
@@ -5,9 +6,23 @@ import remarkGfm from "remark-gfm";
 import { getBlogBySlug } from "../../../data/blog";
 import { MarkdownRenderers } from "../smaller/MarkdownRenderers";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getBlogBySlug(slug) : undefined;
+  const [views, setViews] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!slug || !API_URL) return;
+    console.log(API_URL);
+    fetch(`${API_URL}/blog/${slug}`, { method: "PATCH" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.views === "number") setViews(data.views);
+      })
+      .catch(() => {});
+  }, [slug]);
 
   if (!post) {
     return (
@@ -72,16 +87,21 @@ const BlogPost = () => {
         <Heading size="3xl">{post.frontmatter.title}</Heading>
 
         <HStack gap="12px" alignItems="center">
-          <Text
-            fontSize="14px"
-            color={{ _light: "#525252", _dark: "#9BA0A8" }}
-          >
+          <Text fontSize="14px" color={{ _light: "#525252", _dark: "#9BA0A8" }}>
             {new Date(post.frontmatter.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
           </Text>
+          {views !== null && (
+            <Text
+              fontSize="14px"
+              color={{ _light: "#525252", _dark: "#9BA0A8" }}
+            >
+              &middot; {views} views
+            </Text>
+          )}
         </HStack>
 
         {post.frontmatter.tags.length > 0 && (
