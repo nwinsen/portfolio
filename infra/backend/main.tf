@@ -17,12 +17,12 @@ resource "aws_dynamodb_table" "blog_posts" {
 # auto-create them with no expiry and logs would accumulate forever.
 resource "aws_cloudwatch_log_group" "lambda_logs" {
   name              = "/aws/lambda/${var.project_name}-api"
-  retention_in_days = 14
+  retention_in_days = 7
 }
 
 resource "aws_cloudwatch_log_group" "api_gw_logs" {
   name              = "/aws/apigateway/${var.project_name}-api"
-  retention_in_days = 14
+  retention_in_days = 7
 }
 
 # --- LAMBDA FUNCTION ---
