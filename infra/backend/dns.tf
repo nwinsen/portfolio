@@ -22,7 +22,7 @@ resource "aws_acm_certificate" "api_cert" {
 # --- CERTIFICATE DNS VALIDATION RECORDS ---
 # To prove we own the domain, ACM gives us DNS records to add to Route53.
 # The for_each iterates over those records (usually just one) and creates them.
-# allow_overwrite is safe here — if the record already exists from a previous apply,
+# allow_overwrite is safe. if the record already exists from a previous apply,
 # we just overwrite it with the same value.
 resource "aws_route53_record" "api_cert_validation" {
   for_each = {
