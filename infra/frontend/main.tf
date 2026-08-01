@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "website_bucket" {
-    bucket = "${var.site_domain}-fe-assets"
+  bucket = "${var.site_domain}-fe-assets"
 }
 
 resource "aws_s3_bucket_public_access_block" "website_bucket_privacy" {
@@ -76,8 +76,8 @@ resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = {
-      Sid       = "AllowCloudFrontServicePrincipalReadOnly"
-      Effect    = "Allow"
+      Sid    = "AllowCloudFrontServicePrincipalReadOnly"
+      Effect = "Allow"
       Principal = {
         Service = "cloudfront.amazonaws.com"
       }
@@ -95,10 +95,10 @@ resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
 resource "aws_s3_object" "assets" {
   for_each = fileset("${path.module}/dist/assets", "**/*")
 
-  bucket       = aws_s3_bucket.website_bucket.id
-  key          = "assets/${each.value}"
-  source       = "${path.module}/dist/assets/${each.value}"
-  
+  bucket = aws_s3_bucket.website_bucket.id
+  key    = "assets/${each.value}"
+  source = "${path.module}/dist/assets/${each.value}"
+
   # This dynamic lookup maps the file extension to the correct MIME type
   content_type = lookup({
     "png"  = "image/png"

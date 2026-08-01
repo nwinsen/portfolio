@@ -1,8 +1,14 @@
-# --- REFERENCE EXISTING HOSTED ZONE ---
-# The Route53 hosted zone for winsen.dev is created in /infra/frontend/dns.tf.
-# We look it up here by name — Terraform reads it from AWS but doesn't manage it.
-data "aws_route53_zone" "main" {
-  name = var.site_domain
+# --- REFERENCE EXISTING CLOUDFLARE ZONE ---
+# The frontend stack creates the winsen.dev zone in Cloudflare.
+# The backend stack looks it up by name so it can manage api.winsen.dev and the
+# ACM DNS validation records without owning the zone lifecycle itself.
+data "cloudflare_zones" "main" {
+  account = {
+    id = var.cloudflare_account_id
+  }
+
+  name      = var.site_domain
+  max_items = 1
 }
 
 # --- ACM CERTIFICATE ---
@@ -22,9 +28,9 @@ resource "aws_acm_certificate" "api_cert" {
 # --- CERTIFICATE DNS VALIDATION RECORDS ---
 # To prove we own the domain, ACM gives us DNS records to add to Route53.
 # The for_each iterates over those records (usually just one) and creates them.
-# allow_overwrite is safe. if the record already exists from a previous apply,
-# we just overwrite it with the same value.
-resource "aws_route53_record" "api_cert_validation" {
+# Cloudflare record resources are authoritative, so Terraform owns the record
+# lifecycle instead of relying on a Route53-style allow_overwrite flag.
+resource "cloudflare_dns_record" "api_cert_validation" {
   for_each = {
     for dvo in aws_acm_certificate.api_cert.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
@@ -33,12 +39,12 @@ resource "aws_route53_record" "api_cert_validation" {
     }
   }
 
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
+  name            = trimsuffix(each.value.name, ".")
+  content         = trimsuffix(each.value.record, ".")
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.main.zone_id
+  zone_id         = data.cloudflare_zones.main.result[0].id
+  proxied         = false
 }
 
 # --- CERTIFICATE VALIDATION WAITER ---
@@ -48,7 +54,7 @@ resource "aws_route53_record" "api_cert_validation" {
 resource "aws_acm_certificate_validation" "api_cert" {
   provider                = aws.us_east_1
   certificate_arn         = aws_acm_certificate.api_cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.api_cert_validation : record.fqdn]
+  validation_record_fqdns = [for record in cloudflare_dns_record.api_cert_validation : record.name]
 }
 
 # --- API GATEWAY CUSTOM DOMAIN ---
@@ -79,14 +85,11 @@ resource "aws_apigatewayv2_api_mapping" "api" {
 # An A record alias that points api.winsen.dev to the API Gateway regional endpoint.
 # Aliases are AWS-specific — they're free, support apex domains, and auto-update
 # if the target IP changes (unlike a CNAME with a hardcoded IP).
-resource "aws_route53_record" "api" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = "${var.api_subdomain}.${var.site_domain}"
-  type    = "A"
-
-  alias {
-    name                   = aws_apigatewayv2_domain_name.api.domain_name_configuration[0].target_domain_name
-    zone_id                = aws_apigatewayv2_domain_name.api.domain_name_configuration[0].hosted_zone_id
-    evaluate_target_health = false
-  }
+resource "cloudflare_dns_record" "api" {
+  zone_id = data.cloudflare_zones.main.result[0].id
+  name    = var.api_subdomain
+  type    = "CNAME"
+  ttl     = 1
+  content = trimsuffix(aws_apigatewayv2_domain_name.api.domain_name_configuration[0].target_domain_name, ".")
+  proxied = false
 }

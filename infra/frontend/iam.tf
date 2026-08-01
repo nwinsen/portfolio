@@ -17,8 +17,8 @@ resource "aws_iam_user_policy" "deployer_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = ["s3:PutObject", "s3:ListBucket", "s3:DeleteObject"]
-        Effect   = "Allow"
+        Action = ["s3:PutObject", "s3:ListBucket", "s3:DeleteObject"]
+        Effect = "Allow"
         Resource = [
           aws_s3_bucket.website_bucket.arn,
           "${aws_s3_bucket.website_bucket.arn}/*"

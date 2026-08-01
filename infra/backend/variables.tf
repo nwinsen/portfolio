@@ -12,3 +12,8 @@ variable "api_subdomain" {
   type    = string
   default = "api"
 }
+
+variable "cloudflare_account_id" {
+  description = "Cloudflare account id that owns the winsen.dev zone"
+  type        = string
+}
