@@ -35,7 +35,6 @@ The GitHub Actions Terraform workflow also requires these **production environme
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
 - `TF_STATE_BUCKET`
-- `TF_STATE_REGION`
 - the existing `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 
 `TF_STATE_BUCKET` must be an existing, private S3 bucket with versioning enabled. The workflow uses native S3 state locking with `use_lockfile=true`; no DynamoDB table is required.
