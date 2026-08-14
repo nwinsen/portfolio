@@ -30,12 +30,36 @@ Both stacks now require:
 - `cloudflare_account_id`
 - `CLOUDFLARE_API_TOKEN` in the environment
 
-Example:
+The GitHub Actions Terraform workflow also requires these **production environment secrets**:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `TF_STATE_BUCKET`
+- `TF_STATE_REGION`
+- the existing `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+
+`TF_STATE_BUCKET` must be an existing, private S3 bucket with versioning enabled. The workflow uses native S3 state locking with `use_lockfile=true`; no DynamoDB table is required.
+
+Example local setup:
 
 ```bash
 export CLOUDFLARE_API_TOKEN=...
-terraform apply -var="cloudflare_account_id=..."
+export TF_VAR_cloudflare_account_id=...
+terraform init \
+  -backend-config="bucket=..." \
+  -backend-config="key=portfolio/frontend.tfstate" \
+  -backend-config="region=us-east-1" \
+  -backend-config="encrypt=true" \
+  -backend-config="use_lockfile=true"
 ```
+
+The `winsen.dev` Cloudflare zone already exists, so import it into the frontend state before the first plan:
+
+```bash
+terraform import cloudflare_zone.main <ZONE_ID>
+```
+
+Do not run the Actions apply until the existing AWS resources and Cloudflare zone are represented in the remote state. A fresh state would try to recreate production resources.
 
 ## Cutover order
 
