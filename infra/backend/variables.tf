@@ -4,8 +4,9 @@ variable "site_domain" {
 }
 
 variable "project_name" {
-  type    = string
-  default = "winsen-portfolio"
+  description = "Project name"
+  type        = string
+  default     = "winsen-portfolio"
 }
 
 variable "api_subdomain" {

@@ -1,89 +1,27 @@
-resource "aws_route53_zone" "main" {
-  name = var.site_domain
+# Existing AWS and Cloudflare zones remain authoritative during migration.
+data "aws_route53_zone" "main" {
+  name         = var.site_domain
+  private_zone = false
 }
 
-resource "cloudflare_zone" "main" {
-  account = {
-    id = var.cloudflare_account_id
-  }
-
-  name = var.site_domain
-  type = "full"
+data "cloudflare_zone" "main" {
+  name       = var.site_domain
+  account_id = var.cloudflare_account_id
 }
 
-#Next, we create an SSL Certificate
-resource "aws_acm_certificate" "cert" {
-  # Use the "us_east_1" alias because CloudFront is particular about region ?
-  provider          = aws.us_east_1
-  domain_name       = var.site_domain
-  validation_method = "DNS"
-
-  lifecycle {
-    create_before_destroy = true
-  }
+# CloudFront remains in AWS. Terraform reads its hostname instead of trying to
+# recreate the live distribution during the DNS migration.
+data "aws_cloudfront_distribution" "existing" {
+  id = var.cloudfront_distribution_id
 }
 
-# 3. Create the "Proof of Ownership" Records in Cloudflare DNS.
-# The zone itself is hosted by Cloudflare now, but ACM still consumes the
-# resulting records from public DNS exactly the same way.
-resource "cloudflare_dns_record" "cert_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
-  }
-
-  name    = trimsuffix(each.value.name, ".")
-  content = trimsuffix(each.value.record, ".")
-  ttl     = 60
-  type    = each.value.type
-  zone_id = cloudflare_zone.main.id
-  proxied = false
-}
-
-resource "aws_route53_record" "cert_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
-  }
-
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = aws_route53_zone.main.zone_id
-}
-
-# This tells Tofu to wait for the handshake to finish before moving to the next file
-resource "aws_acm_certificate_validation" "cert" {
-  provider                = aws.us_east_1
-  certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
-}
-
-resource "aws_route53_record" "root_a" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = var.site_domain
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
+# Publish the existing CloudFront endpoint in the Cloudflare zone. Route 53 is
+# intentionally left untouched until the Cloudflare cutover is verified.
 resource "cloudflare_dns_record" "root" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = data.cloudflare_zone.main.id
   name    = "@"
   type    = "CNAME"
   ttl     = 1
-  content = aws_cloudfront_distribution.s3_distribution.domain_name
+  content = trimsuffix(data.aws_cloudfront_distribution.existing.domain_name, ".")
   proxied = false
 }

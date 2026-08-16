@@ -13,3 +13,8 @@ variable "cloudflare_account_id" {
   description = "Cloudflare account id that owns the winsen.dev zone"
   type        = string
 }
+
+variable "cloudfront_distribution_id" {
+  description = "Existing CloudFront distribution serving the portfolio"
+  type        = string
+}
