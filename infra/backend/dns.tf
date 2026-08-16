@@ -1,5 +1,10 @@
 data "cloudflare_zone" "main" {
-  name = var.site_domain
+  filter = {
+    name = var.site_domain
+    account = {
+      id = var.cloudflare_account_id
+    }
+  }
 }
 
 # Read the live API Gateway target from Route 53 instead of recreating the API

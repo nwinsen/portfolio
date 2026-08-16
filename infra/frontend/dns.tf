@@ -5,7 +5,12 @@ data "aws_route53_zone" "main" {
 }
 
 data "cloudflare_zone" "main" {
-  name = var.site_domain
+  filter = {
+    name = var.site_domain
+    account = {
+      id = var.cloudflare_account_id
+    }
+  }
 }
 
 # CloudFront remains in AWS. Terraform reads its hostname instead of trying to
