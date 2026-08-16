@@ -14,7 +14,7 @@ variable "cloudflare_account_id" {
   type        = string
 }
 
-variable "cloudfront_distribution_id" {
-  description = "Existing CloudFront distribution serving the portfolio"
+variable "cloudfront_domain_name" {
+  description = "Existing CloudFront hostname read from the live Route 53 alias"
   type        = string
 }

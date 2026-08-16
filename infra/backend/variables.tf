@@ -18,3 +18,8 @@ variable "cloudflare_account_id" {
   description = "Cloudflare account id that owns the winsen.dev zone"
   type        = string
 }
+
+variable "api_gateway_target_domain_name" {
+  description = "Existing API Gateway regional target read from the live Route 53 alias"
+  type        = string
+}

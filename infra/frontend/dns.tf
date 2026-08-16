@@ -5,14 +5,12 @@ data "aws_route53_zone" "main" {
 }
 
 data "cloudflare_zone" "main" {
-  name       = var.site_domain
-  account_id = var.cloudflare_account_id
-}
-
-# CloudFront remains in AWS. Terraform reads its hostname instead of trying to
-# recreate the live distribution during the DNS migration.
-data "aws_cloudfront_distribution" "existing" {
-  id = var.cloudfront_distribution_id
+  filter = {
+    name = var.site_domain
+    account = {
+      id = var.cloudflare_account_id
+    }
+  }
 }
 
 # Publish the existing CloudFront endpoint in the Cloudflare zone. Route 53 is
@@ -22,6 +20,6 @@ resource "cloudflare_dns_record" "root" {
   name    = "@"
   type    = "CNAME"
   ttl     = 1
-  content = trimsuffix(data.aws_cloudfront_distribution.existing.domain_name, ".")
+  content = trimsuffix(var.cloudfront_domain_name, ".")
   proxied = false
 }

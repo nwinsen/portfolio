@@ -38,7 +38,6 @@ env:
   TF_IN_AUTOMATION: 'true'
   TF_INPUT: 'false'
   TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-  TF_VAR_cloudfront_distribution_id: ${{ secrets.CLOUDFRONT_ID }}
 
 jobs:
   plan:
@@ -60,6 +59,25 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.4
+
+      - name: Read live API Gateway target
+        run: |
+          zone_id="$(aws route53 list-hosted-zones-by-name \
+            --dns-name winsen.dev. \
+            --query 'HostedZones[?Name==`winsen.dev.` && Config.PrivateZone==`false`].Id | [0]' \
+            --output text | sed 's#^/hostedzone/##')"
+          target="$(aws route53 list-resource-record-sets \
+            --hosted-zone-id "$zone_id" \
+            --query 'ResourceRecordSets[?Name==`api.winsen.dev.` && Type==`A`].AliasTarget.DNSName | [0]' \
+            --output text)"
+          site_target="$(aws route53 list-resource-record-sets \
+            --hosted-zone-id "$zone_id" \
+            --query 'ResourceRecordSets[?Name==`winsen.dev.` && Type==`A`].AliasTarget.DNSName | [0]' \
+            --output text)"
+          test -n "$target" && test "$target" != "None"
+          test -n "$site_target" && test "$site_target" != "None"
+          echo "TF_VAR_api_gateway_target_domain_name=$target" >> "$GITHUB_ENV"
+          echo "TF_VAR_cloudfront_domain_name=$site_target" >> "$GITHUB_ENV"
 
       - name: Terraform format check
         run: terraform fmt -check -recursive infra
@@ -130,6 +148,25 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.4
+
+      - name: Read live API Gateway target
+        run: |
+          zone_id="$(aws route53 list-hosted-zones-by-name \
+            --dns-name winsen.dev. \
+            --query 'HostedZones[?Name==`winsen.dev.` && Config.PrivateZone==`false`].Id | [0]' \
+            --output text | sed 's#^/hostedzone/##')"
+          target="$(aws route53 list-resource-record-sets \
+            --hosted-zone-id "$zone_id" \
+            --query 'ResourceRecordSets[?Name==`api.winsen.dev.` && Type==`A`].AliasTarget.DNSName | [0]' \
+            --output text)"
+          site_target="$(aws route53 list-resource-record-sets \
+            --hosted-zone-id "$zone_id" \
+            --query 'ResourceRecordSets[?Name==`winsen.dev.` && Type==`A`].AliasTarget.DNSName | [0]' \
+            --output text)"
+          test -n "$target" && test "$target" != "None"
+          test -n "$site_target" && test "$site_target" != "None"
+          echo "TF_VAR_api_gateway_target_domain_name=$target" >> "$GITHUB_ENV"
+          echo "TF_VAR_cloudfront_domain_name=$site_target" >> "$GITHUB_ENV"
 
       - name: Initialize frontend state
         run: >-
